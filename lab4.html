@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordering Lab for CSC 225</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        h1 {
+            color: #333;
+        font-size: 3em; 
+        margin-bottom: 20px; 
+        border: 2px solid #333;
+        padding: 10px;
+        background-color: #f0f0f0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #order-details {
+            display: none;
+            margin-top: 30px;
+        }
+button {
+        padding: 12px 24px;
+        font-size: 18px;
+        cursor: pointer;
+        background-color: #FF0000;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #990000; 
+    }
+    </style>
+</head>
+<body>
+    <h1>Ordering Lab for CSC 225</h1>
+    <button onclick="promptForOrder()">Place Order Here</button>
+    <div id="order-details">
+        <h2 id="greeting"></h2>
+        <p id="order-summary"></p>
+        <p id="arrival-date"></p>
+    </div>
+    <script>
+        function promptForOrder() {
+            const name = prompt("Please enter your name:");
+            const item = prompt("What item would you like to order?");
+            const quantity = parseInt(prompt("How many items would you like to order? (1-99)"));
+            if (isNaN(quantity) || quantity < 1 || quantity > 99) {
+                alert("Invalid quantity. Please enter a number between 1 and 99.");
+                return;
+            }
+            const currentDate = new Date();
+            const arrivalDate = new Date(currentDate.setDate(currentDate.getDate() + 7));
+            displayOrderDetails(name, item, quantity, arrivalDate);
+        }
+        function displayOrderDetails(name, item, quantity, arrivalDate) {
+            const greeting = getGreeting();
+            const orderSummary = `Thank you, ${name}, for ordering ${quantity} ${item}(s).`;
+            const formattedArrivalDate = formatDate(arrivalDate);
+            document.getElementById("greeting").innerText = greeting;
+            document.getElementById("order-summary").innerText = orderSummary;
+            document.getElementById("arrival-date").innerText = `Your order is on the way and should arrive on: ${formattedArrivalDate}`;
+            document.getElementById("order-details").style.display = "block";
+        }
+        function getGreeting() {
+            const currentDate = new Date();
+            const currentHour = currentDate.getHours();
+
+            if (currentHour < 12) {
+                return "Good Morning";
+            } else if (currentHour < 18) {
+                return "Good Afternoon";
+            } else {
+                return "Good Evening";
+            }
+        }
+        function formatDate(date) {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+    </script>
+</body>
+</html>
