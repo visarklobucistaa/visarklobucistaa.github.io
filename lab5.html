@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electronics Phone Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+            font-size: 36px;
+            margin-bottom: 20px;
+            padding: 10px; 
+            background-color: red; 
+            border-radius: 8px;
+        }
+        .landing {
+            padding: 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .product {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .product img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .product p {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #cc0000;
+        }
+        #message {
+            display: none;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to CSI Electronics Phone Store</h1>
+        <!-- Landing Page Section -->
+        <div class="landing">
+            <h2>This product will release soon!</h2>
+            <div class="product">
+                <img src="https://i.imgur.com/1wTiJVw.png" alt="Iphone 32 Max Pro">
+                <p>iPhone 32 Max Pro</p>
+                <p>$2499.99</p>
+            </div>
+            <p>Register now to receive exclusive offers and updates as well as launch date.</p>
+        </div>
+        <!-- Registration Form -->
+        <form id="registrationForm">
+            <input type="text" id="firstName" placeholder="First Name" required>
+            <input type="text" id="lastName" placeholder="Last Name" required>
+            <input type="email" id="email" placeholder="Email Address" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="date" id="dob" required>
+            <input type="submit" value="Register">
+        </form>
+        <div id="message"></div>
+    </div>
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var firstName = document.getElementById("firstName").value;
+            var lastName = document.getElementById("lastName").value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
+            var dob = document.getElementById("dob").value;
+            // Validate password
+            if (!password.match(/[!?]/)) {
+                showMessage("Password must contain either '!' or '?'");
+                return;
+            }
+            // Mask password
+            var maskedPassword = "*".repeat(password.length);
+            var user = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: maskedPassword,
+                dob: dob
+            };
+            // Display registration successful message
+            showMessage("Registration successful!<br><br>" + JSON.stringify(user));
+            // You could send the 'user' object to the server for further processing here
+        });
+        function showMessage(message) {
+            var messageDiv = document.getElementById("message");
+            messageDiv.style.display = "block";
+            messageDiv.innerHTML = message;
+        }
+    </script>
+</body>
+</html>
