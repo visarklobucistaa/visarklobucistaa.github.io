@@ -3,11 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retrieving Cat Facts</title>
+  <title>CSC 225 REST API Call</title>
+ <style>
+    #databutton {
+      padding: 10px 20px;
+      background-color: #FF00FF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+    #databutton:hover {
+      background-color: #A020F0;
+    }
+	table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+    th {
+      background-color: #FF00FF;
+      color: white;
+    }
+    td {
+      text-align: left;
+    }
+    #catphoto {
+      max-width: 100%;
+      height: auto;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Cat API Demo</h1>
-  <div id="catList"></div>
+  <h1>CSC 225 REST API Call</h1>
+  <button id="databutton">Populate with Data</button>
+  <div id="responseContainer"></div>
   <script src="script.js"></script>
 </body>
 </html>
