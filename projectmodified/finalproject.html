@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .weather-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .weather-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Weather Information</h1>
+        <form id="locationForm">
+            <label for="location">Enter Location:</label>
+            <input type="text" id="location" name="location" required>
+            <button type="submit">Get Weather</button>
+        </form>
+        <div class="weather-info" id="weatherInfo">
+        </div>
+    </div>
+
+    <script>
+        async function getWeather(location) {
+            const weatherUrl = `https://weatherapi-com.p.rapidapi.com/current.json?q=${location}`;
+            const timezoneUrl = `https://weatherapi-com.p.rapidapi.com/timezone.json?q=${location}`;
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': '526b0462a8msh10c0c34c0bdb228p1d5e11jsn142f5a529350',
+                    'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+                }
+            };
+            try {
+                const weatherResponse = await fetch(weatherUrl, options);
+                const timezoneResponse = await fetch(timezoneUrl, options);
+                const weatherResult = await weatherResponse.json();
+                const timezoneResult = await timezoneResponse.json();
+                const weatherData = weatherResult.current;
+                const weatherInfoDiv = document.getElementById('weatherInfo');
+                let weatherIcon = '';
+                switch (weatherData.condition.text.toLowerCase()) {
+                    case 'sunny':
+                        weatherIcon = 'sunny.png';
+                        break;
+                    case 'clear':
+                        weatherIcon = 'clear.png';
+                        break;
+                    case 'partly cloudy':
+                        weatherIcon = 'cloudy.png';
+                        break;
+                    case 'cloudy':
+                        weatherIcon = 'cloud.png';
+                        break;
+                    case 'overcast':
+                        weatherIcon = 'overcast.png';
+                        break;
+                    case 'fog':
+                        weatherIcon = 'fog.png';
+                        break;
+                    case 'mist':
+                        weatherIcon = 'mist.png';
+                        break;
+                    case 'haze':
+                        weatherIcon = 'mist.png';
+                        break;
+                    case 'smoke':
+                        weatherIcon = 'cloud.png';
+                        break;
+                    case 'dust':
+                        weatherIcon = 'dust.svg';
+                        break;
+                    case 'sand':
+                        weatherIcon = 'sand.svg';
+                        break;
+                    case 'duststorm':
+                        weatherIcon = 'duststorm.svg';
+                        break;
+                    case 'sandstorm':
+                        weatherIcon = 'sandstorm.svg';
+                        break;
+                    case 'drizzle':
+                        weatherIcon = 'drizzle.svg';
+                        break;
+                    case 'rain':
+                        weatherIcon = 'rain.png';
+                        break;
+                    case 'snow':
+                        weatherIcon = 'snowflake.png';
+                        break;
+                    case 'freezing rain':
+                        weatherIcon = 'rain.svg';
+                        break;
+                    case 'sleet':
+                        weatherIcon = 'sleet.svg';
+                        break;
+                    case 'thunderstorm':
+                        weatherIcon = 'thunderstorm.png';
+                        break;
+                    case 'tornado':
+                        weatherIcon = 'tornado.svg';
+                        break;
+                    case 'hurricane':
+                        weatherIcon = 'hurricane.svg';
+                        break;
+                    default:
+                        weatherIcon = 'question.svg';
+                        break;
+                }
+                weatherInfoDiv.innerHTML = `
+                    <p>Location: ${weatherResult.location.name}, ${weatherResult.location.country}</p>
+                    <p>Temperature: ${weatherData.temp_c}°C / ${weatherData.temp_f}°F</p>
+                    <p>Condition: ${weatherData.condition.text}</p>
+                    <p>Local Time: ${timezoneResult.location.localtime}</p>
+                    <img class="weather-icon" src="${weatherIcon}" alt="Weather Icon">
+                `;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        document.getElementById('locationForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const location = document.getElementById('location').value;
+            getWeather(location);
+        });
+    </script>
+</body>
+</html>
